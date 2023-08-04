@@ -1,6 +1,6 @@
 import time
 from tkinter import *
-
+from plyer import notification
 
 
 def start_timer():
@@ -13,6 +13,13 @@ def start_timer():
         window.update()
         time.sleep(1)
         total_seconds -= 1
+
+    # When the timer is finished, it displays notifications
+    notification_title = "Pomodoro Timeer"
+    notification_message = "Hi :) Time is up ! It's time to take a break"
+    notification.notify(title=notification_title, message=notification_message, timeout=5)
+
+    print("Timer finished!")
 
 
 window = Tk()
