@@ -14,8 +14,12 @@ def play_alarm_sound():
     pygame.mixer.music.play()
 
 
-def start_timer():
+def start_timer(should_start=True):
     global TIMER_RUNNING
+
+    if should_start:
+        TIMER_RUNNING = True
+
     total_seconds = int(hours.get()) * 3600 + int(minutes.get()) * 60 + int(seconds.get())
 
     while total_seconds > 0 and TIMER_RUNNING:
@@ -45,17 +49,35 @@ def pause_resume_timer():
         start_timer()
 
 
+def reset_timer():
+    global TIMER_RUNNING
+
+    TIMER_RUNNING = False
+    hours.set('00')
+    minutes.set('25')
+    seconds.set('00')
+
+
 window = Tk()
 window.title("PomodoroApp")
 
 window_width = window.winfo_screenwidth()
 window_height = window.winfo_screenheight()
 
+# Constants
+
 WIDTH = 650
 HEIGHT = 350
 
 X = (window_width//2) - (WIDTH//2)
 Y = (window_height//2) - (HEIGHT//2)
+
+TIMER_RUNNING = True
+
+X_INPUTS = 200
+Y_INPUTS = 40
+
+
 
 window.configure(background='red')
 window.geometry(f'{WIDTH}x{HEIGHT}+{X}+{Y}')
@@ -66,12 +88,10 @@ minutes = StringVar()
 seconds = StringVar()
 
 hours.set('00')
-minutes.set('00')
+minutes.set('25')
 seconds.set('00')
 
-X_INPUTS = 200
-Y_INPUTS = 40
-
+# Entries
 hoursInput = Entry(window, width=3, font=('Arial', 20, ''), textvariable=hours)
 hoursInput.place(x=X_INPUTS, y=Y_INPUTS)
 
@@ -81,14 +101,16 @@ minutesInput.place(x=X_INPUTS + 100, y=Y_INPUTS)
 secondsInput = Entry(window, width=3, font=('Arial', 20, ''), textvariable=seconds)
 secondsInput.place(x=X_INPUTS + 200, y=Y_INPUTS)
 
+
+# Buttons
 start_button = Button(window, text='Start Pomodoro', font=('Arial', 12, 'bold'), command=start_timer)
-start_button.place(x=100, y=210)
-
-
-TIMER_RUNNING = True
+start_button.place(x=80, y=210)
 
 pause_button = Button(window, text='Pause/Resume Pomodoro', font=('Arial', 12, 'bold'), command=pause_resume_timer)
-pause_button.place(x=250, y=210)
+pause_button.place(x=225, y=210)
+
+reset_button = Button(window, text='Reset Pomodoro', font=('Arial', 12, 'bold'), command=reset_timer)
+reset_button.place(x=450, y=210)
 
 
 
