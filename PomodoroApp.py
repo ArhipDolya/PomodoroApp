@@ -1,6 +1,17 @@
 import time
 from tkinter import *
 from plyer import notification
+import pygame
+
+from sound import SOUND
+
+
+
+def play_alarm_sound():
+    pygame.mixer.init()
+    pygame.mixer.music.load(SOUND)
+    pygame.mixer.music.set_volume(0.4)
+    pygame.mixer.music.play()
 
 
 def start_timer():
@@ -16,7 +27,8 @@ def start_timer():
 
     # When the timer is finished, it displays notifications
     notification_title = "Pomodoro Timeer"
-    notification_message = "Hi :) Time is up ! It's time to take a break"
+    notification_message = "Hi :) Time is up! It's time to take a break!"
+    play_alarm_sound()
     notification.notify(title=notification_title, message=notification_message, timeout=5)
 
     print("Timer finished!")
